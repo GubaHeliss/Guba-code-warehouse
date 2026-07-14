@@ -6,485 +6,299 @@
 <title>认养一头牛好友日案例</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap');
-
   :root {
     --primary: #0040FF;
     --primary-light: #3366FF;
     --primary-pale: #E8F0FE;
-    --bg-start: #F5F8FF;
-    --bg-end: #E8F0FE;
     --white: #FFFFFF;
     --text-dark: #1A1A2E;
     --text-mid: #4A4A6A;
     --text-light: #8A8AA0;
     --accent-red: #FF4D4F;
     --accent-green: #52C41A;
-    --accent-gold: #FAAD14;
     --card-shadow: 0 2px 12px rgba(0, 64, 255, 0.08);
-    --card-radius: 12px;
-    --page-width: 1920px;
+    --card-radius: 10px;
   }
-
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   body {
-    font-family: 'TencentSans', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-    background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 50%, #D6E4FF 100%);
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 20px;
+    font-family: 'TencentSans', 'Noto Sans SC', 'PingFang SC', sans-serif;
+    background: linear-gradient(135deg, #F5F8FF 0%, #E8F0FE 50%, #D6E4FF 100%);
+    min-height: 100vh; display: flex; justify-content: center; align-items: flex-start; padding: 16px;
   }
-
   @font-face { font-family: 'TencentSans'; src: local('TencentSans W7'), local('TencentSans'); font-weight: 700; }
   @font-face { font-family: 'TencentSans'; src: local('TencentSans W3'), local('TencentSans'); font-weight: 400; }
 
-  /* ===== 编辑工具栏 ===== */
+  /* 编辑工具栏 */
   .edit-toolbar {
-    position: fixed; top: 16px; right: 24px; z-index: 1000;
-    display: flex; gap: 10px;
-    background: rgba(255,255,255,0.92); backdrop-filter: blur(12px);
-    padding: 10px 16px; border-radius: 24px;
-    box-shadow: 0 4px 20px rgba(0,64,255,0.12);
-    border: 1px solid rgba(0,64,255,0.1);
+    position: fixed; top: 12px; right: 20px; z-index: 1000;
+    display: flex; gap: 8px; background: rgba(255,255,255,0.92); backdrop-filter: blur(12px);
+    padding: 8px 14px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,64,255,0.12);
   }
-  .edit-toolbar button {
-    font-family: inherit; font-size: 13px; font-weight: 600;
-    padding: 8px 18px; border: none; border-radius: 20px; cursor: pointer;
-    transition: all 0.2s; display: flex; align-items: center; gap: 6px;
-  }
+  .edit-toolbar button { font-family: inherit; font-size: 12px; font-weight: 600; padding: 6px 14px; border: none; border-radius: 16px; cursor: pointer; display: flex; align-items: center; gap: 4px; }
   .btn-save { background: var(--primary); color: white; }
-  .btn-save:hover { background: #0030D0; transform: translateY(-1px); }
+  .btn-save:hover { background: #0030D0; }
   .btn-save-as { background: white; color: var(--primary); border: 1.5px solid var(--primary) !important; }
-  .btn-save-as:hover { background: var(--primary-pale); }
 
-  /* ===== 主页面 ===== */
+  /* 主页面 */
   .case-page {
-    width: var(--page-width);
-    background: white; border-radius: 16px;
-    box-shadow: 0 8px 40px rgba(0, 64, 255, 0.12);
-    overflow: hidden; position: relative;
-    display: flex; flex-direction: column;
+    width: 1920px; min-height: 1080px; background: white; border-radius: 12px;
+    box-shadow: 0 8px 40px rgba(0, 64, 255, 0.12); overflow: hidden; display: flex; flex-direction: column;
   }
 
-  /* ===== 顶部标题区 ===== */
-  .header-section {
-    background: linear-gradient(135deg, var(--primary) 0%, #1A5CFF 60%, #3366FF 100%);
-    padding: 36px 60px 30px; color: white; position: relative; overflow: hidden;
+  /* 顶部区 */
+  .top-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 48px 0; font-size: 11px; color: var(--text-light);
   }
-  .header-section::before {
-    content: ''; position: absolute; top: -60px; right: -40px;
-    width: 300px; height: 300px; background: rgba(255,255,255,0.05); border-radius: 50%;
+  .top-tag { background: var(--primary-pale); color: var(--primary); padding: 3px 12px; border-radius: 4px; font-weight: 600; font-size: 11px; }
+  .header-section { text-align: center; padding: 10px 48px 14px; }
+  .header-subtitle { font-size: 12px; color: var(--primary); margin-bottom: 6px; font-weight: 500; }
+  .header-title { font-size: 28px; font-weight: 900; color: var(--primary); line-height: 1.3; margin-bottom: 10px; }
+  .kpi-bar {
+    display: inline-flex; gap: 20px; background: var(--primary); color: white;
+    padding: 8px 32px; border-radius: 20px; font-size: 13px; font-weight: 600;
   }
-  .header-section::after {
-    content: ''; position: absolute; bottom: -80px; left: 20%;
-    width: 200px; height: 200px; background: rgba(255,255,255,0.03); border-radius: 50%;
-  }
-  .case-tag {
-    display: inline-block; background: rgba(255,255,255,0.2);
-    padding: 4px 14px; border-radius: 12px; font-size: 11px; font-weight: 500;
-    margin-bottom: 10px; letter-spacing: 1px; position: relative; z-index: 1;
-  }
-  .case-title { font-size: 30px; font-weight: 900; line-height: 1.3; margin-bottom: 8px; position: relative; z-index: 1; }
-  .case-client { font-size: 16px; font-weight: 400; opacity: 0.9; position: relative; z-index: 1; }
-  .case-bg-desc { margin-top: 10px; font-size: 13px; opacity: 0.8; line-height: 1.6; max-width: 78%; position: relative; z-index: 1; }
+  .kpi-bar span { white-space: nowrap; }
 
-  /* ===== 内容主体 ===== */
-  .content-body { padding: 28px 60px 26px; flex: 1; display: flex; flex-direction: column; gap: 22px; }
+  /* 三栏主体 */
+  .main-body { display: flex; flex: 1; padding: 16px 48px 14px; gap: 16px; }
 
-  /* ===== 区块标题 ===== */
-  .block-title {
-    font-size: 16px; font-weight: 900; color: var(--text-dark);
-    display: flex; align-items: center; gap: 8px; margin-bottom: 2px;
+  /* 左栏 */
+  .col-left { width: 200px; flex-shrink: 0; display: flex; flex-direction: column; gap: 12px; }
+  .section-label {
+    background: var(--primary); color: white; padding: 6px 14px; border-radius: 6px;
+    font-size: 13px; font-weight: 700; text-align: center; margin-bottom: 2px;
   }
-  .block-title::before {
-    content: ''; width: 4px; height: 16px; background: var(--primary); border-radius: 2px;
+  .info-card {
+    background: var(--primary-pale); border-radius: var(--card-radius); padding: 14px;
+    font-size: 11px; color: var(--text-mid); line-height: 1.7;
   }
+  .info-card .label { color: var(--primary); font-weight: 700; font-size: 12px; margin-bottom: 4px; display: flex; align-items: center; gap: 4px; }
+  .info-card .tag { display: inline-block; background: var(--primary); color: white; padding: 2px 8px; border-radius: 4px; font-size: 10px; margin-bottom: 6px; }
 
-  /* ===== KPI 看板 ===== */
-  .kpi-section { display: flex; gap: 14px; flex-wrap: wrap; }
-  .kpi-card {
-    flex: 1; min-width: 150px;
-    background: linear-gradient(135deg, var(--white), #FAFBFF);
-    border-radius: var(--card-radius); padding: 18px 20px;
-    box-shadow: var(--card-shadow); border: 1px solid rgba(0, 64, 255, 0.06);
-    text-align: center; transition: transform 0.2s;
-  }
-  .kpi-card:hover { transform: translateY(-2px); }
-  .kpi-value { font-size: 30px; font-weight: 900; color: var(--primary); line-height: 1.2; }
-  .kpi-label { font-size: 12px; color: var(--text-light); margin-top: 4px; font-weight: 500; }
-  .kpi-highlight { color: var(--accent-red); font-weight: 900; }
+  /* 中栏 */
+  .col-center { flex: 1; display: flex; flex-direction: column; gap: 12px; }
+  .center-header { display: flex; align-items: center; gap: 0; }
+  .center-header .section-label { border-radius: 6px 0 0 6px; flex-shrink: 0; }
+  .center-header .section-label-line { flex: 1; height: 32px; background: var(--primary-pale); border-radius: 0 6px 6px 0; display: flex; align-items: center; padding-left: 12px; font-size: 13px; font-weight: 700; color: var(--primary); }
 
-  /* ===== 亮点卡片区 ===== */
-  .highlights-section { display: flex; gap: 16px; flex-wrap: nowrap; align-items: stretch; }
-  .highlight-card {
-    flex: 1; min-width: 0; background: var(--white);
-    border-radius: var(--card-radius); box-shadow: var(--card-shadow);
-    border-left: 4px solid var(--primary); overflow: hidden;
-    transition: all 0.2s; display: flex; flex-direction: column;
+  .highlights-grid { display: flex; gap: 12px; flex: 1; }
+  .hl-card {
+    flex: 1; background: var(--white); border: 1.5px solid #D6E4FF; border-radius: var(--card-radius);
+    padding: 12px; display: flex; flex-direction: column; overflow: hidden;
   }
-  .highlight-card:hover { box-shadow: 0 4px 20px rgba(0, 64, 255, 0.14); }
-  .highlight-header { padding: 16px 18px 8px; display: flex; align-items: center; gap: 10px; }
-  .highlight-icon {
-    width: 32px; height: 32px; border-radius: 8px; background: var(--primary-pale);
-    display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0;
+  .hl-card-title { font-size: 13px; font-weight: 700; color: var(--primary); margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+  .hl-card-title .num { background: var(--primary); color: white; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; }
+  .hl-card-body { font-size: 11px; color: var(--text-mid); line-height: 1.6; margin-bottom: 8px; }
+  .hl-card-body strong { color: var(--text-dark); }
+  .hl-card-imgs { display: flex; gap: 6px; flex-wrap: wrap; margin-top: auto; align-items: flex-end; }
+  .hl-card-imgs img {
+    height: 160px; width: auto; max-width: 100%; object-fit: contain;
+    border-radius: 6px; box-shadow: 0 1px 6px rgba(0,0,0,0.08); cursor: pointer;
   }
-  .highlight-title { font-size: 14px; font-weight: 700; color: var(--text-dark); line-height: 1.3; }
-  .highlight-body { padding: 0 18px 12px; font-size: 12px; color: var(--text-mid); line-height: 1.7; }
-  .highlight-body ol { padding-left: 16px; margin: 4px 0; }
-  .highlight-body li { margin-bottom: 3px; }
-  .highlight-image { width: 100%; padding: 0 12px 12px; margin-top: auto; }
-  .image-wrapper { position: relative; display: block; width: 100%; text-align: center; }
-  .highlight-image img {
-    max-width: 100%; max-height: 220px; width: auto; height: auto;
-    object-fit: contain; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  }
-  .image-replace-btn {
-    position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.6);
-    color: white; border: none; border-radius: 4px; padding: 4px 10px;
-    font-size: 11px; cursor: pointer; opacity: 0; transition: opacity 0.2s;
-  }
+  .image-wrapper { position: relative; display: inline-block; }
+  .image-replace-btn { position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.6); color: white; border: none; border-radius: 3px; padding: 2px 6px; font-size: 10px; cursor: pointer; opacity: 0; transition: opacity 0.2s; }
   .image-wrapper:hover .image-replace-btn { opacity: 1; }
 
-  /* ===== 折叠详情 ===== */
-  .collapse-toggle {
-    display: inline-flex; align-items: center; gap: 4px; color: var(--primary);
-    font-size: 12px; font-weight: 600; cursor: pointer; border: none; background: none;
-    padding: 4px 18px 12px; font-family: inherit;
-  }
-  .collapse-toggle:hover { opacity: 0.8; }
-  .collapse-content {
-    display: none; padding: 10px 14px; margin: 0 18px 14px;
-    background: #F8FAFF; border-radius: 8px; font-size: 12px;
-    color: var(--text-mid); line-height: 1.7; border: 1px dashed #B8CCFF;
-  }
-  .collapse-content.show { display: block; }
-  .collapse-content ul { padding-left: 16px; margin: 4px 0; }
-  .collapse-content li { margin-bottom: 2px; }
+  /* 右栏 */
+  .col-right { width: 280px; flex-shrink: 0; display: flex; flex-direction: column; gap: 10px; }
+  .kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .kpi-box { background: var(--primary-pale); border-radius: 8px; padding: 12px 10px; text-align: center; }
+  .kpi-box .val { font-size: 24px; font-weight: 900; color: var(--primary); line-height: 1.2; }
+  .kpi-box .val.red { color: var(--accent-red); }
+  .kpi-box .lbl { font-size: 10px; color: var(--text-light); margin-top: 2px; }
+  .force-mini { background: var(--primary-pale); border-radius: var(--card-radius); padding: 10px 12px; font-size: 11px; color: var(--text-mid); line-height: 1.6; }
+  .force-mini .ft { color: var(--primary); font-weight: 700; font-size: 12px; margin-bottom: 3px; }
+  .force-mini-img { margin-top: 6px; text-align: center; }
+  .force-mini-img img { max-height: 120px; width: auto; object-fit: contain; border-radius: 6px; }
 
-  /* ===== 力场分析折叠区 ===== */
-  .force-toggle {
-    display: flex; align-items: center; gap: 8px; padding: 12px 20px;
-    background: var(--primary-pale); border-radius: var(--card-radius); cursor: pointer;
-    font-size: 15px; font-weight: 700; color: var(--primary); border: none;
-    width: 100%; text-align: left; font-family: inherit; transition: background 0.2s;
-    justify-content: space-between;
+  /* 底部 Learning */
+  .learning-bar {
+    background: linear-gradient(90deg, var(--primary) 0%, #1A5CFF 100%);
+    padding: 10px 48px; color: white; font-size: 12px; font-weight: 500; line-height: 1.5;
+    display: flex; align-items: center; gap: 10px;
   }
-  .force-toggle:hover { background: #D6E4FF; }
-  .force-toggle .arrow { transition: transform 0.3s; font-size: 12px; }
-  .force-toggle.expanded .arrow { transform: rotate(180deg); }
-  .force-panels { display: none; gap: 14px; padding-top: 14px; flex-wrap: wrap; }
-  .force-panels.show { display: flex; }
-  .force-card {
-    flex: 1; min-width: 260px; background: var(--white);
-    border-radius: var(--card-radius); box-shadow: var(--card-shadow);
-    padding: 16px 18px; border-top: 3px solid var(--primary-light);
-    display: flex; flex-direction: column;
-  }
-  .force-card-title { font-size: 14px; font-weight: 700; color: var(--primary); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
-  .force-card-body { font-size: 12px; color: var(--text-mid); line-height: 1.7; }
-  .force-card-img { margin-top: 10px; text-align: center; }
-  .force-card-img img { max-width: 100%; max-height: 200px; width: auto; object-fit: contain; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+  .learning-bar .tag { background: rgba(255,255,255,0.2); padding: 2px 10px; border-radius: 4px; font-weight: 700; font-size: 11px; flex-shrink: 0; }
 
-  /* ===== AI 总结区 ===== */
-  .ai-summary-section {
-    background: linear-gradient(135deg, #F0F5FF 0%, #E8F0FE 100%);
-    border-radius: var(--card-radius); padding: 20px 28px;
-    border: 1px solid rgba(0, 64, 255, 0.1);
-  }
-  .ai-summary-title { font-size: 15px; font-weight: 700; color: var(--primary); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-  .ai-summary-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-  .ai-summary-list li { font-size: 12.5px; color: var(--text-mid); line-height: 1.6; padding-left: 22px; position: relative; }
-  .ai-summary-list li::before { content: '✦'; position: absolute; left: 0; color: var(--primary); font-size: 11px; top: 2px; }
-
-  /* ===== 重点标红 ===== */
-  .text-red { color: var(--accent-red); font-weight: 700; }
-  .text-bold { font-weight: 700; color: var(--text-dark); }
-  .text-blue { color: var(--primary); font-weight: 700; }
-
-  /* ===== contenteditable 编辑态 ===== */
-  [contenteditable="true"] { outline: none; border-radius: 3px; transition: background 0.15s; padding: 1px 4px; margin: -1px -4px; }
+  /* contenteditable */
+  [contenteditable="true"] { outline: none; border-radius: 2px; transition: background 0.15s; }
   [contenteditable="true"]:hover { background: rgba(0, 64, 255, 0.04); }
   [contenteditable="true"]:focus { background: rgba(0, 64, 255, 0.08); box-shadow: 0 0 0 2px rgba(0, 64, 255, 0.2); }
 
-  /* ===== 图片替换弹窗 ===== */
+  /* 弹窗 */
   .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); z-index: 2000; align-items: center; justify-content: center; }
   .modal-overlay.show { display: flex; }
-  .modal-box { background: white; border-radius: 16px; padding: 28px; width: 480px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
-  .modal-box h3 { font-size: 16px; font-weight: 700; margin-bottom: 16px; color: var(--text-dark); }
-  .modal-box input { width: 100%; padding: 10px 14px; border: 1.5px solid #D6E4FF; border-radius: 8px; font-size: 13px; font-family: inherit; margin-bottom: 16px; outline: none; }
-  .modal-box input:focus { border-color: var(--primary); }
-  .modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
-  .modal-actions button { padding: 8px 20px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; font-family: inherit; }
+  .modal-box { background: white; border-radius: 12px; padding: 24px; width: 420px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+  .modal-box h3 { font-size: 15px; font-weight: 700; margin-bottom: 12px; }
+  .modal-box input { width: 100%; padding: 8px 12px; border: 1.5px solid #D6E4FF; border-radius: 6px; font-size: 12px; margin-bottom: 12px; outline: none; }
+  .modal-actions { display: flex; gap: 8px; justify-content: flex-end; }
+  .modal-actions button { padding: 6px 16px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; border: none; }
   .modal-btn-confirm { background: var(--primary); color: white; }
   .modal-btn-cancel { background: #F0F0F5; color: var(--text-mid); }
 
-  img { max-width: 100%; height: auto; }
-  @media print { body { background: white; padding: 0; } .edit-toolbar { display: none; } .case-page { box-shadow: none; border-radius: 0; } }
+  @media print { body { background: white; padding: 0; } .edit-toolbar { display: none; } .case-page { box-shadow: none; } }
 </style>
 </head>
 <body>
 
-<!-- 编辑工具栏 -->
 <div class="edit-toolbar">
-  <button class="btn-save" onclick="saveReport()" title="覆盖保存原文件">💾 保存报告</button>
-  <button class="btn-save-as" onclick="saveAsNew()" title="创建新案例文件">📋 另存为新案例</button>
+  <button class="btn-save" onclick="saveReport()">💾 保存</button>
+  <button class="btn-save-as" onclick="saveAsNew()">📋 另存为</button>
 </div>
 
-<!-- 图片替换弹窗 -->
 <div class="modal-overlay" id="imageModal">
   <div class="modal-box">
     <h3>替换图片</h3>
     <input type="text" id="imageUrlInput" placeholder="请输入新的图片URL">
     <div class="modal-actions">
       <button class="modal-btn-cancel" onclick="closeImageModal()">取消</button>
-      <button class="modal-btn-confirm" onclick="confirmReplaceImage()">确认替换</button>
+      <button class="modal-btn-confirm" onclick="confirmReplaceImage()">确认</button>
     </div>
   </div>
 </div>
 
-<!-- ====== 案例页面主体 ====== -->
 <div class="case-page" id="casePage">
 
-  <!-- 顶部标题区 -->
-  <div class="header-section">
-    <div class="case-tag" contenteditable="true">食品饮料 · 电商好友日案例</div>
-    <h1 class="case-title" contenteditable="true">自播与达人双驱动，认养一头牛好友日实现千万成交</h1>
-    <div class="case-client" contenteditable="true">客户：认养一头牛</div>
-    <div class="case-bg-desc" contenteditable="true">商家在 6 月底申报好友日活动，希望通过与平台共建好友日大场，实现 GMV 及日销的带动。</div>
+  <!-- 顶部 -->
+  <div class="top-bar">
+    <span class="top-tag">案例 · CASE</span>
+    <span contenteditable="true">微信小店 · 食品饮料行业 · 2026 好友日 · 认养一头牛（乳制品）</span>
   </div>
 
-  <!-- 内容主体 -->
-  <div class="content-body">
+  <div class="header-section">
+    <h1 class="header-title" contenteditable="true">自播与达人双驱动，认养一头牛好友日实现千万成交</h1>
+    <div class="kpi-bar">
+      <span contenteditable="true">5天达成 1700w+ GMV</span>
+      <span>·</span>
+      <span contenteditable="true">GMV环比 +368%</span>
+      <span>·</span>
+      <span contenteditable="true">自播连续3场破百万</span>
+      <span>·</span>
+      <span contenteditable="true">达播峰值 500w+/场</span>
+    </div>
+  </div>
 
-    <!-- KPI 看板 -->
-    <div>
-      <div class="block-title"><span contenteditable="true">关键成果</span></div>
-      <div class="kpi-section" id="kpiSection" style="margin-top:12px;">
-        <div class="kpi-card">
-          <div class="kpi-value" contenteditable="true">1700w+</div>
-          <div class="kpi-label" contenteditable="true">5天达成 GMV</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-value kpi-highlight" contenteditable="true">368%</div>
-          <div class="kpi-label" contenteditable="true">GMV 环比提升</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-value" contenteditable="true">3场</div>
-          <div class="kpi-label" contenteditable="true">自播间连续破百万</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-value kpi-highlight" contenteditable="true">500w+</div>
-          <div class="kpi-label" contenteditable="true">达播峰值 / 场</div>
-        </div>
+  <!-- 三栏主体 -->
+  <div class="main-body">
+
+    <!-- 左栏：商家画像与现状 -->
+    <div class="col-left">
+      <div class="section-label">商家画像与现状</div>
+      <div class="info-card">
+        <div class="tag">画像</div>
+        <div contenteditable="true">乳制品头部品牌，长期耕耘微信小店，自建达人BD团队，具备大促承接基础。</div>
+      </div>
+      <div class="info-card">
+        <div class="tag">窗口</div>
+        <div contenteditable="true">6月底申报好友日活动，希望通过与平台共建好友日大场，实现GMV及日销带动。</div>
+      </div>
+      <div class="info-card">
+        <div class="label">🎯 核心痛点</div>
+        <div contenteditable="true">如何在618后"淡季"依然实现爆发？如何充分调动达人+自播双引擎？</div>
       </div>
     </div>
 
-    <!-- 经营亮点卡片 -->
-    <div>
-      <div class="block-title"><span contenteditable="true">经营三环亮点</span></div>
-      <div class="highlights-section" id="highlightsSection" style="margin-top:12px;">
+    <!-- 中栏：优化动作 -->
+    <div class="col-center">
+      <div class="center-header">
+        <div class="section-label">优化动作</div>
+        <div class="section-label-line" contenteditable="true">经营三环亮点</div>
+      </div>
 
-        <!-- 亮点1：自播间极致打磨 -->
-        <div class="highlight-card" id="highlight_0">
-          <div class="highlight-header">
-            <div class="highlight-icon">🎯</div>
-            <div class="highlight-title" contenteditable="true">自播间极致打磨</div>
+      <div class="highlights-grid">
+        <!-- 亮点1 -->
+        <div class="hl-card">
+          <div class="hl-card-title"><span class="num">1</span><span contenteditable="true">自播间极致打磨</span></div>
+          <div class="hl-card-body" contenteditable="true">
+            <strong>总裁/明星空降</strong> + 微憋单模式，调度最优团队全天转化。布景升级，干冰展示保温箱卖点。<br><br>
+            千次成交 <strong style="color:#FF4D4F">¥8,206</strong>（日均2.16倍）<br>首日转化率破 <strong style="color:#FF4D4F">6%</strong>
           </div>
-          <div class="highlight-body" contenteditable="true">
-            <ol>
-              <li>从日常平播改为<span class="text-bold">总裁 / 明星空降直播间 + 微憋单模式</span>，调度最优质直播团队，实现全天密集紧凑的下单转化。</li>
-              <li>直播间布景升级，着重彰显赠品价值感（通过<span class="text-bold">干冰让保温箱卖点视觉化</span>呈现）。</li>
-              <li>围绕大促机制调整话术，让用户感受到获得优惠；并根据转化效果及时调整次日产品和话术。</li>
-            </ol>
-            好友日期间自播间千次成交达 <span class="text-red">¥8,206</span>，是好友日前日均的 <span class="text-red">2.16 倍</span>；首日直播间成交转化率破 <span class="text-red">6%</span>。
-          </div>
-          <div class="highlight-image">
+          <div class="hl-card-imgs">
             <div class="image-wrapper">
-              <img src="images/highlight_1_0.png" alt="认养一头牛官方直播间搜索页" onerror="this.src='https://placehold.co/600x400/E8F0FE/0040FF?text=图片加载失败'">
+              <img src="images/key_results_2.png" alt="品牌搜索页" onclick="openImageReplace(this)">
+              <button class="image-replace-btn" onclick="openImageReplace(this.previousElementSibling)">替换</button>
+            </div>
+            <div class="image-wrapper">
+              <img src="images/highlight_1_0.png" alt="自播直播间" onclick="openImageReplace(this)">
               <button class="image-replace-btn" onclick="openImageReplace(this.previousElementSibling)">替换</button>
             </div>
           </div>
         </div>
 
-        <!-- 亮点2：达播长期沉淀反哺 -->
-        <div class="highlight-card" id="highlight_1">
-          <div class="highlight-header">
-            <div class="highlight-icon">💡</div>
-            <div class="highlight-title" contenteditable="true">达播长期沉淀反哺</div>
+        <!-- 亮点2 -->
+        <div class="hl-card">
+          <div class="hl-card-title"><span class="num">2</span><span contenteditable="true">达播长期沉淀反哺</span></div>
+          <div class="hl-card-body" contenteditable="true">
+            自建BD团队储备<strong>丰富达人库</strong>，差异化货组（奶卡/中老年/冰淇淋），头达建模型吸引中小达涌入。<br><br>
+            馋嘴汇峰值场观 <strong style="color:#FF4D4F">66w</strong>，5天不间断接力。
           </div>
-          <div class="highlight-body" contenteditable="true">
-            <ol>
-              <li>品牌自建达人 BD 团队，长期合作储备<span class="text-bold">丰富达人库</span>；618 后淡季仍与多个食品垂达合作，并持续有达人加入好友日带货。</li>
-              <li>围绕达人粉丝特性<span class="text-bold">差异化货组</span>：区分自播 / 食品垂达 / 泛人群头达，分别搭配赠品机制、中高客单奶卡&口味奶、中老年奶粉等。</li>
-              <li>部分达人因强转化效应，收获好友日大量激励流量。达人<span class="text-blue">馋嘴汇</span>峰值场观 <span class="text-red">66w</span>。</li>
-            </ol>
-          </div>
-          <div class="highlight-image">
+          <div class="hl-card-imgs">
             <div class="image-wrapper">
-              <img src="images/highlight_2_1.png" alt="达人直播讲解 A2β-酪蛋白牛奶" onerror="this.src='https://placehold.co/600x400/E8F0FE/0040FF?text=图片加载失败'">
-              <button class="image-replace-btn" onclick="openImageReplace(this.previousElementSibling)">替换</button>
-            </div>
-          </div>
-          <button class="collapse-toggle" onclick="toggleCollapse('collapse_hl_1')">查看头达建模式细节 ▼</button>
-          <div class="collapse-content" id="collapse_hl_1" contenteditable="true">
-            <div class="text-bold" style="color:var(--primary);margin-bottom:6px;">通过头达建立爆款案例，吸引中小达涌入合作的模式</div>
-            <ul>
-              <li>头部达人亏本合作验证模型</li>
-              <li>首日爆发数据战报公开</li>
-              <li>中小达播看到数据后主动涌现追加合作</li>
-              <li>达人场景差异化：馋嘴汇 → 奶卡 ｜ 唐老板 → 中老年奶粉 ｜ 其他达人 → 冰淇淋 / 99 以下品</li>
-              <li>模式可持续复制，5 天不间断接力</li>
-            </ul>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- 力场分析折叠区 -->
-    <div class="force-section" id="forceSection">
-      <button class="force-toggle expanded" id="forceToggle" onclick="toggleForceSection()">
-        <span>📊 投放四力分析</span>
-        <span class="arrow">▼</span>
-      </button>
-      <div class="force-panels show" id="forcePanels">
-
-        <!-- 商品力 -->
-        <div class="force-card">
-          <div class="force-card-title"><span>🛒</span><span contenteditable="true">商品力</span></div>
-          <div class="force-card-body" contenteditable="true">
-            <div class="text-bold" style="color:var(--primary);">必爆组合 = 应季赠品 + 货组价格</div>
-            • 夏季首发<span class="text-red">露营小冰箱赠品</span>，市场稀缺，赠品代替"破价"机制，用户感知极强！<br>
-            • 原价 99×3 箱 → 4 箱叠加保温箱后好友日补贴券后价 <span class="text-red">179 元</span>，增加投流空间和毛利空间。<br>
-            • 同期错峰 618，与抖音 / 其他平台形成清晰价格区隔。
-          </div>
-        </div>
-
-        <!-- 内容力 -->
-        <div class="force-card">
-          <div class="force-card-title"><span>🎬</span><span contenteditable="true">内容力</span></div>
-          <div class="force-card-body" contenteditable="true">
-            <div class="text-bold" style="color:var(--primary);">活动前充分试播建立确定性</div>
-            提前一周试播 + 测货组、测机制、测素材，脚本话术反复打磨，让直播间保证高质感与清晰的赠品效果展示。<br>
-            <div class="text-bold" style="color:var(--primary);margin-top:6px;">充分的广告素材准备</div>
-            围绕 40~50 妈妈人群特点，素材以<span class="text-bold">实拍口播</span>为主加强信任感；前 3s 围绕保温箱赠品吸引停留与点击，CVR 稳定在 <span class="text-red">5%+</span>。每组商品几十个素材确保丰富度。
-          </div>
-          <button class="collapse-toggle" onclick="toggleCollapse('collapse_content')">查看直播间节奏管控细节 ▼</button>
-          <div class="collapse-content" id="collapse_content" contenteditable="true">
-            <div class="text-bold" style="color:var(--primary);margin-bottom:4px;">直播间内容 · 极致节奏管控与转化设计</div>
-            <ul>
-              <li>调度抖音最好的主播 + 中控团队；搭建实景场景（含达人场景）</li>
-              <li>准备大场 Plan B 双播方案；每天 5-6 轮过脚本试讲</li>
-              <li>主播话术让用户觉得"赚到了、薅到了"；10 分钟一个转化周期，节奏极快</li>
-              <li>商品开好价一直弹出 + 憋单配合；赠品充分展示：三台小冰箱轮番加干冰</li>
-              <li>露营车使用场景 KT 板（买菜 / 拉快递）；短直双开，5 天发布 69 条短视频同步引流</li>
-            </ul>
-            <div class="text-bold" style="color:var(--primary);margin:4px 0;">活动后 · 即时复盘动态调优</div>
-            <ul>
-              <li>及时复盘调整货组策略；动态调整主播、场控人员</li>
-              <li>优化脚本话术，确保次日效率持续提升</li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- 投放力 -->
-        <div class="force-card">
-          <div class="force-card-title"><span>🚀</span><span contenteditable="true">投放力</span></div>
-          <div class="force-card-body" contenteditable="true">
-            <div class="text-bold" style="color:var(--primary);">多账户双链路同步投放</div>
-            提前增加投放账号，降低 ROI 要求配合大促放量，叠加平台腾飞扶持，好友日 <span class="text-red">ADQ 侧投放破百万</span>。<br>
-            直播 + 直购双链路共同投放，采用 <span class="text-bold">ADQ 智投 + 全域通</span>多端测试，小店直购链路 ROI 在 <span class="text-red">3~4</span> 表现突出。
-          </div>
-          <div class="force-card-img">
-            <div class="image-wrapper">
-              <img src="images/ad_power_3.png" alt="A2β-酪蛋白纯牛奶 + 保温箱赠品实拍" onerror="this.src='https://placehold.co/600x400/E8F0FE/0040FF?text=图片加载失败'">
+              <img src="images/highlight_2_1.png" alt="达人直播A2β" onclick="openImageReplace(this)">
               <button class="image-replace-btn" onclick="openImageReplace(this.previousElementSibling)">替换</button>
             </div>
           </div>
         </div>
 
+        <!-- 亮点3 商品力 -->
+        <div class="hl-card">
+          <div class="hl-card-title"><span class="num">3</span><span contenteditable="true">商品力：必爆组合</span></div>
+          <div class="hl-card-body" contenteditable="true">
+            <strong>应季赠品 + 货组价格</strong><br>
+            夏季首发露营小冰箱，市场稀缺，赠品代替破价。<br><br>
+            99×3箱 → 4箱+保温箱 券后 <strong style="color:#FF4D4F">179元</strong><br>错峰618形成清晰价格区隔。
+          </div>
+          <div class="hl-card-imgs">
+            <div class="image-wrapper">
+              <img src="images/ad_power_3.png" alt="保温箱赠品实拍" onclick="openImageReplace(this)">
+              <button class="image-replace-btn" onclick="openImageReplace(this.previousElementSibling)">替换</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- AI 总结区 -->
-    <div class="ai-summary-section" id="aiSummarySection">
-      <div class="ai-summary-title">
-        <span>🤖</span>
-        <span contenteditable="true">AI 案例总结 · Learning</span>
+    <!-- 右栏：效果数据 + 力场 -->
+    <div class="col-right">
+      <div class="section-label">好友日增长效果</div>
+      <div class="kpi-grid">
+        <div class="kpi-box"><div class="val red" contenteditable="true">1700w+</div><div class="lbl" contenteditable="true">5天GMV</div></div>
+        <div class="kpi-box"><div class="val red" contenteditable="true">+368%</div><div class="lbl" contenteditable="true">GMV环比提升</div></div>
+        <div class="kpi-box"><div class="val" contenteditable="true">3场</div><div class="lbl" contenteditable="true">自播连续破百万</div></div>
+        <div class="kpi-box"><div class="val" contenteditable="true">500w+</div><div class="lbl" contenteditable="true">达播峰值/场</div></div>
       </div>
-      <ul class="ai-summary-list" id="aiSummaryList">
-        <li contenteditable="true"><span class="text-bold">自播 + 达播双引擎是千万级爆发的底盘</span>：自播间连续 3 场破百万，达播峰值 500w+/场，两条链路相互反哺放大声量。</li>
-        <li contenteditable="true"><span class="text-bold">赠品代替破价，是高感知低伤价的关键手</span>：稀缺的露营小冰箱赠品让用户感知极强，既保住价格体系又留出投流与毛利空间。</li>
-        <li contenteditable="true"><span class="text-bold">达人池是长效资产，可用"头达建模型 → 中小达涌入"复制爆发</span>：淡季持续维护达人库，大促即可快速调用并接力 5 天不断档。</li>
-        <li contenteditable="true"><span class="text-bold">前置试播 + 极致节奏管控决定转化天花板</span>：提前一周测货组/机制/素材，10 分钟一个转化周期，首日转化率破 6%。</li>
-        <li contenteditable="true"><span class="text-bold">多账户双链路 + 平台扶持放大确定性</span>：ADQ 智投 + 全域通多端测试，小店直购 ROI 稳定 3~4，ADQ 侧投放破百万。</li>
-      </ul>
+
+      <div class="force-mini">
+        <div class="ft">🎬 内容力</div>
+        <div contenteditable="true">提前一周试播测货组/机制/素材；实拍口播为主，CVR 稳定 5%+；5天发布69条短视频引流。</div>
+      </div>
+
+      <div class="force-mini">
+        <div class="ft">🚀 投放力</div>
+        <div contenteditable="true">多账户双链路（直播+直购），ADQ智投+全域通；ADQ侧投放破百万，直购ROI 3~4。</div>
+      </div>
     </div>
 
+  </div>
+
+  <!-- 底部 Learning -->
+  <div class="learning-bar">
+    <span class="tag">Learning</span>
+    <span contenteditable="true">自播+达播双引擎是千万爆发底盘；稀缺赠品代替破价保住价格体系；头达建模型→中小达涌入可复制爆发；前置试播+极致节奏管控决定转化天花板。</span>
   </div>
 
 </div>
 
-<!-- ====== 交互脚本 ====== -->
 <script>
   let currentImageTarget = null;
-  function openImageReplace(imgElement) {
-    currentImageTarget = imgElement;
-    document.getElementById('imageUrlInput').value = imgElement.src;
-    document.getElementById('imageModal').classList.add('show');
-  }
-  function closeImageModal() {
-    document.getElementById('imageModal').classList.remove('show');
-    currentImageTarget = null;
-  }
-  function confirmReplaceImage() {
-    const newUrl = document.getElementById('imageUrlInput').value.trim();
-    if (newUrl && currentImageTarget) {
-      currentImageTarget.src = newUrl;
-      currentImageTarget.onerror = function() { this.src = 'https://placehold.co/600x400/E8F0FE/0040FF?text=图片加载失败'; };
-    }
-    closeImageModal();
-  }
-  function toggleForceSection() {
-    const panels = document.getElementById('forcePanels');
-    const toggle = document.getElementById('forceToggle');
-    if (panels && toggle) { panels.classList.toggle('show'); toggle.classList.toggle('expanded'); }
-  }
-  function toggleCollapse(id) {
-    const el = document.getElementById(id);
-    if (el) el.classList.toggle('show');
-  }
-  function saveReport() {
-    const html = collectAndRebuildHTML();
-    downloadHTML(html, getOriginalFilename());
-  }
-  function saveAsNew() {
-    const html = collectAndRebuildHTML();
-    const original = getOriginalFilename().replace('.html', '');
-    const timestamp = new Date().toISOString().slice(0,10).replace(/-/g,'');
-    downloadHTML(html, `${original}_${timestamp}.html`);
-  }
-  function collectAndRebuildHTML() {
-    const clone = document.documentElement.cloneNode(true);
-    const toolbar = clone.querySelector('.edit-toolbar'); if (toolbar) toolbar.remove();
-    const modal = clone.querySelector('.modal-overlay'); if (modal) modal.remove();
-    clone.querySelectorAll('script').forEach(s => s.remove());
-    return '<!DOCTYPE html>\n' + clone.outerHTML;
-  }
-  function downloadHTML(html, filename) {
-    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = filename;
-    document.body.appendChild(a); a.click(); document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  }
-  function getOriginalFilename() { return '认养一头牛_好友日案例.html'; }
-  document.addEventListener('keydown', function(e) {
-    if ((e.ctrlKey || e.metaKey) && e.key === 's') { e.preventDefault(); saveReport(); }
-  });
+  function openImageReplace(el) { currentImageTarget = el; document.getElementById('imageUrlInput').value = el.src; document.getElementById('imageModal').classList.add('show'); }
+  function closeImageModal() { document.getElementById('imageModal').classList.remove('show'); currentImageTarget = null; }
+  function confirmReplaceImage() { const u = document.getElementById('imageUrlInput').value.trim(); if (u && currentImageTarget) { currentImageTarget.src = u; } closeImageModal(); }
+  function saveReport() { downloadHTML(collectHTML(), '认养一头牛_好友日案例.html'); }
+  function saveAsNew() { const ts = new Date().toISOString().slice(0,10).replace(/-/g,''); downloadHTML(collectHTML(), '认养一头牛_好友日案例_'+ts+'.html'); }
+  function collectHTML() { const c = document.documentElement.cloneNode(true); c.querySelector('.edit-toolbar')?.remove(); c.querySelector('.modal-overlay')?.remove(); c.querySelectorAll('script').forEach(s=>s.remove()); return '<!DOCTYPE html>\n'+c.outerHTML; }
+  function downloadHTML(html, fn) { const b = new Blob([html],{type:'text/html;charset=utf-8'}); const u = URL.createObjectURL(b); const a = document.createElement('a'); a.href=u; a.download=fn; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(u); }
+  document.addEventListener('keydown', e => { if ((e.ctrlKey||e.metaKey) && e.key==='s') { e.preventDefault(); saveReport(); } });
 </script>
 
 </body>
